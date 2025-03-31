@@ -4,18 +4,20 @@ import Navbar from '../../components/Navbar'
 import { PasswordInput } from '../../components/Input/PasswordInput'
 import { Link } from 'react-router-dom'
 import { validateEmail } from '../../utils/helper'
+import { useNavigate } from 'react-router-dom'
+import axios from "axios";
+import axiosInstance from '../../utils/axiosInstance'
+
 
 export const Signup = () => {
    const [password , setPassword] = useState("");
    const [email, setEmail] = useState("");
    const [name , setName] = useState("");
    const [error, setError] = useState(null);
+   const navigate = useNavigate();
 
   const handleSignup = async(e) => {
      e.preventDefault();
-
-
-
      if(!name) {
       setError("Please enter your name");
       return;
@@ -31,6 +33,22 @@ export const Signup = () => {
       return
      }
     setError("")
+    try {
+        const response = await axiosInstance.post("/create-account", {
+         name,
+         email,
+         password
+        });
+        if(response.data.error){
+          setError(response.data.message);
+          return;
+        }
+        localStorage.setItem("token", response.data.token)
+        alert("SignUp sucessfull");
+        navigate("/dashboard")
+    } catch(err){
+      setError("Invalid credentials")
+    }
   }
   return (
     <>

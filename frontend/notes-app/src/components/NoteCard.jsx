@@ -1,6 +1,7 @@
 import React from "react";
 import { MdOutlinePushPin } from "react-icons/md";
 import { MdCreate, MdDelete } from "react-icons/md";
+import moment from "moment";
 
 export const NoteCard = ({
   title,
@@ -18,7 +19,7 @@ export const NoteCard = ({
       <div className="flex items-center justify-between">
         <div className="overflow-hidden">
           <h6 className="text-sm font-semibold text-gray-800 truncate">{title}</h6>
-          <span className="text-xs text-gray-500">{date}</span>
+          <span className="text-xs text-gray-500">{moment(date).format('Do MMM YYYY')}</span>
         </div>
         <MdOutlinePushPin
           className={`cursor-pointer text-lg ${
@@ -36,7 +37,7 @@ export const NoteCard = ({
       {/* Footer Section */}
       <div className="flex items-center justify-between mt-3">
         <div className="text-xs text-gray-500 flex gap-1 flex-wrap max-w-[80%] overflow-hidden">
-          {tags?.split(",").map((tag, index) => (
+          {tags?.map((tag, index) => (
             <span
               key={index}
               className="px-2 py-0.5 bg-gray-200 text-gray-700 rounded-md text-[10px] break-words"
